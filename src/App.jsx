@@ -3,6 +3,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
 
 const PrivateRoute = ({ children }) => {
@@ -14,16 +15,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-       
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Home />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminLogin />} />
 
-       
         <Route
           path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin-dashboard"
           element={
             <PrivateRoute>
               <Dashboard />

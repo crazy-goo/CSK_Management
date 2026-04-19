@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthShell from "./AuthShell";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,48 +43,62 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-[#fdb913] via-[#ffcc33] to-[#1c3f94]">
-      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+    <AuthShell
+      eyebrow="Team access"
+      title="Sign into the franchise operations workspace."
+      description="Use your account to access franchise records, supporter data, and internal workflows from one clean dashboard."
+      footer={
+        <div className="flex flex-col gap-3 text-sm text-black/60 sm:flex-row sm:items-center sm:justify-between">
+          <Link to="/signup" className="minimal-link">
+            Create workspace account
+          </Link>
+          <Link to="/admin" className="minimal-link">
+            Admin login
+          </Link>
+        </div>
+      }
+    >
+      <div className="mb-8">
+        <p className="font-script text-2xl text-[var(--color-accent-strong)]">
           Login
+        </p>
+        <h2 className="mt-3 text-3xl font-semibold text-[var(--color-ink)]">
+          Workspace Sign In
         </h2>
+      </div>
 
-        <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
+      <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Email</span>
           <input
             type="email"
             name="email"
             value={data.email}
-            placeholder="Enter your email"
+            placeholder="you@example.com"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg text-sm sm:text-base"
+            className="minimal-input"
             required
           />
+        </label>
 
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Password</span>
           <input
             type="password"
             name="password"
             value={data.password}
-            placeholder="Enter password"
+            placeholder="Enter your password"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg text-sm sm:text-base"
+            className="minimal-input"
             required
           />
+        </label>
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm sm:text-base hover:bg-blue-700 cursor-pointer">
-            Login
-          </button>
-        </form>
-
-        <div className="flex justify-between mt-4 text-xs sm:text-sm">
-          <Link to="/signup" className="text-blue-600">
-            Create account
-          </Link>
-          <Link to="/admin" className="text-red-600">
-            Admin Login
-          </Link>
-        </div>
-      </div>
-    </div>
+        <button className="minimal-button w-full cursor-pointer justify-center">
+          Login
+        </button>
+      </form>
+    </AuthShell>
   );
 };
 

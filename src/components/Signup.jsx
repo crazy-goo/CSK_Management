@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthShell from "./AuthShell";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,6 +43,8 @@ const Signup = () => {
 
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
 
     alert("Signup successful!");
 
@@ -49,69 +52,90 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-[#fdb913] via-[#ffcc33] to-[#1c3f94]">
-      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+    <AuthShell
+      eyebrow="New workspace"
+      title="Create access for your franchise team."
+      description="Set up a clean account for daily operations, supporter records, and internal coordination."
+      footer={
+        <p className="text-sm text-black/60">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            className="minimal-link"
+          >
+            Login
+          </button>
+        </p>
+      }
+    >
+      <div className="mb-8">
+        <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+          Signup
+        </p>
+        <h2 className="mt-3 text-3xl font-semibold text-[var(--color-ink)]">
           Create Account
         </h2>
+      </div>
 
-        <form onSubmit={handleSignup} className="space-y-4">
+      <form onSubmit={handleSignup} className="space-y-4">
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Name</span>
           <input
             type="text"
             name="name"
             value={data.name}
-            placeholder="Enter your name"
+            placeholder="Your full name"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="minimal-input"
             required
           />
+        </label>
 
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Email</span>
           <input
             type="email"
             name="email"
             value={data.email}
-            placeholder="Enter your email"
+            placeholder="you@example.com"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="minimal-input"
             required
           />
+        </label>
 
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Password</span>
           <input
             type="password"
             name="password"
             value={data.password}
-            placeholder="Enter password"
+            placeholder="Create a password"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="minimal-input"
             required
           />
+        </label>
 
+        <label className="block space-y-2">
+          <span className="text-sm text-black/60">Confirm Password</span>
           <input
             type="password"
             name="confirmPassword"
             value={data.confirmPassword}
-            placeholder="Confirm password"
+            placeholder="Re-enter your password"
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="minimal-input"
             required
           />
+        </label>
 
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm sm:text-base hover:bg-blue-700 cursor-pointer">
-            Sign Up
-          </button>
-        </form>
-
-        <p className="text-center mt-4 text-sm">
-          Already have an account?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-red-600 cursor-pointer"
-          >
-            Login
-          </span>
-        </p>
-      </div>
-    </div>
+        <button className="minimal-button w-full cursor-pointer justify-center">
+          Sign Up
+        </button>
+      </form>
+    </AuthShell>
   );
 };
 
