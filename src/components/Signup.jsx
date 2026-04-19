@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthShell from "./AuthShell";
+import AuthShell from "../components/AuthShell";
+import api, { setAccessToken } from "../utils/api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,11 +13,13 @@ const Signup = () => {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (data.password !== data.confirmPassword) {
@@ -24,31 +27,32 @@ const Signup = () => {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      setLoading(true);
 
-    const userExists = users.find(
-      (u) => u.email.toLowerCase() === data.email.toLowerCase(),
-    );
+      const res = await api.post("/api/auth/users/register", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
-    if (userExists) {
-      alert("User already exists");
-      return;
+      const { user, token } = res.data;
+
+  
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      setAccessToken(token);
+
+      alert("Signup successful!");
+
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Signup failed. Try again.");
+    } finally {
+      setLoading(false);
     }
-
-    const newUser = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-
-    alert("Signup successful!");
-
-    navigate("/dashboard");
   };
 
   return (
@@ -70,10 +74,10 @@ const Signup = () => {
       }
     >
       <div className="mb-8">
-        <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+        <p className="font-script text-2xl text-(--color-accent-strong)">
           Signup
         </p>
-        <h2 className="mt-3 text-3xl font-semibold text-[var(--color-ink)]">
+        <h2 className="mt-3 text-3xl font-semibold text-(--color-ink)">
           Create Account
         </h2>
       </div>
@@ -131,8 +135,8 @@ const Signup = () => {
           />
         </label>
 
-        <button className="minimal-button w-full cursor-pointer justify-center">
-          Sign Up
+        <button className="minimal-button w-full justify-center">
+          {loading ? "Creating account..." : "Sign Up"}
         </button>
       </form>
     </AuthShell>

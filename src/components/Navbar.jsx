@@ -1,13 +1,21 @@
 import BrandMark from "./BrandMark";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import { setAccessToken } from "../utils/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-
+  let currentUser = {};
+  try {
+    currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+  } catch {
+    currentUser = {};
+  }
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUser");
+
+    setAccessToken(null);
+
     navigate("/login");
   };
 
@@ -21,7 +29,7 @@ const Navbar = () => {
             <p className="text-xs uppercase tracking-[0.24em] text-black/40">
               Active workspace
             </p>
-            <p className="text-sm text-[var(--color-ink)]">
+            <p className="text-sm text-(--color-ink)">
               {currentUser.name || currentUser.email || "Franchise user"}
             </p>
           </div>

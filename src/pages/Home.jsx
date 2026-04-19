@@ -26,7 +26,7 @@ const Home = () => {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <div className="min-h-screen bg-[var(--color-cream)] text-[var(--color-ink)]">
+    <div className="min-h-screen bg-(--color-cream) text-(--color-ink)">
       <header className="sticky top-0 z-50 border-b border-black/10 bg-[rgba(246,241,232,0.92)] backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-5">
           <BrandMark />
@@ -51,18 +51,17 @@ const Home = () => {
               Get Started
             </Link>
           </div>
-{/* 
           <button
             type="button"
             aria-label="Open navigation menu"
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(true)}
-            className="minimal-icon-button md:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden flex flex-col gap-1"
           >
-            <span />
-            <span />
-            <span />
-          </button> */}
+            <span className="block w-5 h-0.5 bg-black"></span>
+            <span className="block w-5 h-0.5 bg-black"></span>
+            <span className="block w-5 h-0.5 bg-black"></span>
+          </button>
         </div>
       </header>
 
@@ -73,8 +72,8 @@ const Home = () => {
       <aside
         className={`minimal-drawer md:hidden ${menuOpen ? "is-open" : ""}`}
       >
-        <div className="flex items-center justify-between">
-          <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+        <div className="flex items-center justify-between md:hidden">
+          <p className="font-script text-2xl text-(--color-accent-strong)">
             Menu
           </p>
           <button
@@ -88,7 +87,7 @@ const Home = () => {
           </button>
         </div>
 
-        <nav className="mt-10 flex flex-col gap-5 text-lg text-[var(--color-ink)]">
+        <nav className="mt-10 flex flex-col gap-5 text-lg text-(--color-ink)">
           <a
             href="#features"
             onClick={closeMenu}
@@ -120,9 +119,10 @@ const Home = () => {
       </aside>
 
       <main>
-        <section className="mx-auto grid max-w-6xl gap-14 px-4 py-12 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:py-24">
+        <section className="mx-auto grid max-w-6xl gap-8 px-3 py-6 sm:px-4 md:grid-cols-[1.15fr_0.85fr] md:py-12">
+          {/* <section className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:py-24"> */}
           <div className="space-y-8">
-            <p className="font-script text-3xl text-[var(--color-accent-strong)]">
+            <p className="font-script text-3xl text-(--color-accent-strong)">
               Built for modern cricket franchises
             </p>
 
@@ -165,7 +165,7 @@ const Home = () => {
 
           <div className="minimal-panel flex flex-col justify-between gap-10">
             <div className="space-y-5">
-              <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+              <p className="font-script text-2xl text-(--color-accent-strong)">
                 Why this sells better
               </p>
               <div className="space-y-4">
@@ -197,12 +197,16 @@ const Home = () => {
           </div>
         </section>
 
-        <section
+        {/* <section
           id="features"
           className="mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-10"
+        > */}
+        <section
+          id="features"
+          className="mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-10 scroll-mt-24"
         >
           <div className="mb-10 max-w-2xl space-y-3">
-            <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+            <p className="font-script text-2xl text-(--color-accent-strong)">
               Core modules
             </p>
             <h2 className="text-3xl font-semibold">
@@ -229,9 +233,13 @@ const Home = () => {
           </div>
         </section>
 
-        <section
+        {/* <section
           id="experience"
           className="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20"
+        > */}
+        <section
+          id="experience"
+          className="mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-10 scroll-mt-24"
         >
           <div className="grid gap-5 md:grid-cols-2">
             <div className="minimal-card">
@@ -264,7 +272,7 @@ const Home = () => {
         >
           <div className="minimal-panel flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-2xl space-y-3">
-              <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+              <p className="font-script text-2xl text-(--color-accent-strong)">
                 Entry points
               </p>
               <h2 className="text-3xl font-semibold">

@@ -1,9 +1,10 @@
+
 const Footer = () => {
   return (
-    <footer className="border-t border-black/10 bg-[var(--color-cream)]">
+    <footer className="border-t border-black/10 bg-(--color-cream)">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 text-sm text-black/60 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-lg font-semibold text-[var(--color-ink)]">
+          <p className="text-lg font-semibold text-(--color-ink)">
             FranchiseFlow
           </p>
           <p className="mt-1">

@@ -22,15 +22,15 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[var(--color-cream)] px-4 py-8 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-(--color-cream) px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl space-y-6">
           <section className="minimal-panel">
             <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-4">
-                <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+                <p className="font-script text-2xl text-(--color-accent-strong)">
                   {isAdmin ? "Admin workspace" : "Operations workspace"}
                 </p>
-                <h1 className="text-4xl font-semibold leading-tight text-[var(--color-ink)] sm:text-5xl">
+                <h1 className="text-4xl font-semibold leading-tight text-(--color-ink) sm:text-5xl">
                   Welcome {currentUser.name ? currentUser.name.split(" ")[0] : "back"}.
                 </h1>
                 <p className="leading-8 text-black/65">
@@ -55,7 +55,7 @@ const Dashboard = () => {
                 <p className="text-xs uppercase tracking-[0.28em] text-black/40">
                   Next step
                 </p>
-                <h2 className="mt-4 text-2xl font-semibold text-[var(--color-ink)]">
+                <h2 className="mt-4 text-2xl font-semibold text-(--color-ink)">
                   {item}
                 </h2>
               </article>
@@ -70,25 +70,25 @@ const Dashboard = () => {
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <div>
                   <p className="text-sm text-black/50">Name</p>
-                  <p className="mt-1 text-lg text-[var(--color-ink)]">
+                  <p className="mt-1 text-lg text-(--color-ink)">
                     {currentUser.name || "Franchise user"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-black/50">Email</p>
-                  <p className="mt-1 text-lg text-[var(--color-ink)]">
+                  <p className="mt-1 text-lg text-(--color-ink)">
                     {currentUser.email || "Not available"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-black/50">Role</p>
-                  <p className="mt-1 text-lg capitalize text-[var(--color-ink)]">
+                  <p className="mt-1 text-lg capitalize text-(--color-ink)">
                     {currentUser.role || "team"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-black/50">Status</p>
-                  <p className="mt-1 text-lg text-[var(--color-ink)]">Active</p>
+                  <p className="mt-1 text-lg text-(--color-ink)">Active</p>
                 </div>
               </div>
             </article>
@@ -97,7 +97,7 @@ const Dashboard = () => {
               <p className="text-xs uppercase tracking-[0.28em] text-black/40">
                 Product direction
               </p>
-              <h2 className="mt-4 text-2xl font-semibold text-[var(--color-ink)]">
+              <h2 className="mt-4 text-2xl font-semibold text-(--color-ink)">
                 Built to sell across franchises
               </h2>
               <p className="mt-4 leading-7 text-black/65">

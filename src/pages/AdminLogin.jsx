@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthShell from "../components/AuthShell";
+import api, { setAccessToken } from "../utils/api";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -9,36 +10,46 @@ const AdminLogin = () => {
     email: "",
     password: "",
   });
-  
+
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      formData.email === "csk@management.com" &&
-      formData.password === "cskadmin123"
-    ) {
+    try {
+      setLoading(true);
+
+      const res = await api.post("/api/auth/admin/login", formData);
+
+      const { user, token } = res.data;
+
+      if (user.role !== "admin") {
+        alert("Access denied. Not an admin.");
+        return;
+      }
+
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify({
-          name: "Franchise Admin",
-          email: formData.email,
-          role: "admin",
-        }),
-      );
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      setAccessToken(token);
+
       navigate("/admin-dashboard");
-    } else {
-      alert("Wrong email or password. Please try again.");
+    } catch (err) {
+      console.error(err);
+      alert(
+        err.response?.data?.message ||
+          "Wrong email or password. Please try again.",
+      );
+    } finally {
+      setLoading(false);
     }
   };
-  
   return (
     <AuthShell
       eyebrow="Admin access"
@@ -55,10 +66,10 @@ const AdminLogin = () => {
       }
     >
       <div className="mb-8">
-        <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+        <p className="font-script text-2xl text-(--color-accent-strong)">
           Admin
         </p>
-        <h2 className="mt-3 text-3xl font-semibold text-[var(--color-ink)]">
+        <h2 className="mt-3 text-3xl font-semibold text-(--color-ink)">
           Admin Login
         </h2>
       </div>
@@ -69,7 +80,7 @@ const AdminLogin = () => {
           <input
             type="email"
             name="email"
-            placeholder="csk@management.com"
+            placeholder="admin@example.com"
             onChange={handleChange}
             className="minimal-input"
             required
@@ -89,7 +100,7 @@ const AdminLogin = () => {
         </label>
 
         <button className="minimal-button w-full justify-center">
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </AuthShell>

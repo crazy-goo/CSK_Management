@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthShell from "./AuthShell";
+import AuthShell from "../components/AuthShell";
+import api, { setAccessToken } from "../utils/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,36 +10,41 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
+    const user = localStorage.getItem("currentUser");
+
+    if (isLoggedIn === "true" && user) {
       navigate("/dashboard");
     }
   }, [navigate]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      setLoading(true);
 
-    const validUser = users.find(
-      (u) =>
-        u.email.toLowerCase().trim() === data.email.toLowerCase().trim() &&
-        u.password.trim() === data.password.trim(),
-    );
+      const res = await api.post("/api/auth/users/login", data);
 
-    if (validUser) {
+      const { user, token } = res.data;
+
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("currentUser", JSON.stringify(validUser));
+      localStorage.setItem("currentUser", JSON.stringify(user));
+
+      setAccessToken(token);
 
       navigate("/dashboard");
-    } else {
-      alert("Invalid Email or Password");
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Login failed. Check credentials.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,10 +65,10 @@ const Login = () => {
       }
     >
       <div className="mb-8">
-        <p className="font-script text-2xl text-[var(--color-accent-strong)]">
+        <p className="font-script text-2xl text-(--color-accent-strong)">
           Login
         </p>
-        <h2 className="mt-3 text-3xl font-semibold text-[var(--color-ink)]">
+        <h2 className="mt-3 text-3xl font-semibold text-(--color-ink)">
           Workspace Sign In
         </h2>
       </div>
@@ -94,8 +100,8 @@ const Login = () => {
           />
         </label>
 
-        <button className="minimal-button w-full cursor-pointer justify-center">
-          Login
+        <button className="minimal-button w-full justify-center">
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </AuthShell>
